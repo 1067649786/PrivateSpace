@@ -6,9 +6,18 @@ public class ResultEntity<T> {
 
     private String message;
 
-    private String statusCode;
+    private Integer statusCode;
 
     private String status;
+
+    public ResultEntity(){}
+
+    public ResultEntity(T body, String message, Integer statusCode, String status) {
+        this.body = body;
+        this.message = message;
+        this.statusCode = statusCode;
+        this.status = status;
+    }
 
     public T getBody() {
         return body;
@@ -26,11 +35,11 @@ public class ResultEntity<T> {
         this.message = message;
     }
 
-    public String getStatusCode() {
+    public Integer getStatusCode() {
         return statusCode;
     }
 
-    public void setStatusCode(String statusCode) {
+    public void setStatusCode(Integer statusCode) {
         this.statusCode = statusCode;
     }
 

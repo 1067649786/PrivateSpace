@@ -1,6 +1,12 @@
 spring:
   application:
     name: private-space-system
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/private_space?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password:
+    type: com.alibaba.druid.pool.DruidDataSource
 
 eureka:
   client:
@@ -8,4 +14,20 @@ eureka:
       defaultZone: http://localhost:8000/eureka
 
 server:
-  port: 8080
+  port: 8082
+
+# mybatis-plus相关配置
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  global-config:
+    db-config:
+      id-type: input
+      db-type: mysql
+  configuration:
+    # 是否开启自动驼峰命名规则映射:从数据库列名到Java属性驼峰命名的类似映射
+    map-underscore-to-camel-case: true
+    # 如果查询结果中包含空值的列，则 MyBatis 在映射的时候，不会映射这个字段
+    call-setters-on-nulls: true
+    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
