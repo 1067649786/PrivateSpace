@@ -10,10 +10,10 @@ public class ResultUtils {
     private static final Integer RESULT_FAIL_CODE = 2;
 
     public static ResultEntity createFailResultEntity(String message){
-        return new ResultEntity(null,message,RESULT_FAIL_CODE,TYPE_RESULT_FAIL);
+        return new ResultEntity<>(null,message,RESULT_FAIL_CODE,TYPE_RESULT_FAIL);
     }
 
     public static ResultEntity createSuccessResultEntity(String message,Object body){
-        return new ResultEntity(body,message,RESULT_SUCCESS_CODE,TYPE_RESULT_SUCCESS);
+        return new ResultEntity<>(body,message,RESULT_SUCCESS_CODE,TYPE_RESULT_SUCCESS);
     }
 }

@@ -6,5 +6,7 @@ import com.lyh.ps.system.entity.User;
 
 public interface UserService extends IService<User> {
 
-    ResultEntity userLogin(String account,String password);
+    ResultEntity userLogin(String username,String password);
+
+    ResultEntity userRegister(User user);
 }

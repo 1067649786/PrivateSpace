@@ -13,6 +13,12 @@ public class User {
 
     private String password;
 
+    private String username;
+
+    private Integer isBind;
+
+    private String bindAccount;
+
     public String getId() {
         return id;
     }
@@ -35,5 +41,29 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Integer getIsBind() {
+        return isBind;
+    }
+
+    public void setIsBind(Integer isBind) {
+        this.isBind = isBind;
+    }
+
+    public String getBindAccount() {
+        return bindAccount;
+    }
+
+    public void setBindAccount(String bindAccount) {
+        this.bindAccount = bindAccount;
     }
 }
