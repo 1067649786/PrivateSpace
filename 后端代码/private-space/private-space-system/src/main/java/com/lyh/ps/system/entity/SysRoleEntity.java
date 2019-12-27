@@ -1,0 +1,38 @@
+package com.lyh.ps.system.entity;
+
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.io.Serializable;
+
+@TableName("sys_role")
+public class SysRoleEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 角色id
+     */
+    @TableId
+    private Long roleId;
+
+    /**
+     * 角色名称
+     */
+    private String roleName;
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+}

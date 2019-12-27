@@ -1,4 +1,4 @@
-package com.lyh.ps.system.conf;
+package com.lyh.ps.system.common.conf;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
