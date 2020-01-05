@@ -1,4 +1,4 @@
-package com.lyh.ps.system.common.utils;
+package com.lyh.ps.common.utils;
 
 import org.apache.shiro.crypto.hash.SimpleHash;
 

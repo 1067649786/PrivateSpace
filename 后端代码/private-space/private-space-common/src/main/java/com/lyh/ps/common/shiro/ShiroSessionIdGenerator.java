@@ -1,6 +1,6 @@
-package com.lyh.ps.system.common.shiro;
+package com.lyh.ps.common.shiro;
 
-import com.lyh.ps.system.common.constant.RedisConstant;
+import com.lyh.ps.common.constant.RedisConstant;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator;
 import org.apache.shiro.session.mgt.eis.SessionIdGenerator;

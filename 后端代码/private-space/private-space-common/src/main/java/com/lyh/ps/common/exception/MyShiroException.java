@@ -1,4 +1,4 @@
-package com.lyh.ps.system.common.exception;
+package com.lyh.ps.common.exception;
 
 import com.lyh.ps.common.entity.ResultEntity;
 import com.lyh.ps.common.utils.ResultUtils;

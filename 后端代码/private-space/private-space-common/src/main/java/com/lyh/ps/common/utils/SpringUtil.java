@@ -1,4 +1,4 @@
-package com.lyh.ps.system.common.utils;
+package com.lyh.ps.common.utils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

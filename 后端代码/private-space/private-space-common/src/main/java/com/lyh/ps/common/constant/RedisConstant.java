@@ -1,4 +1,4 @@
-package com.lyh.ps.system.common.constant;
+package com.lyh.ps.common.constant;
 
 /**
  * redis常量类

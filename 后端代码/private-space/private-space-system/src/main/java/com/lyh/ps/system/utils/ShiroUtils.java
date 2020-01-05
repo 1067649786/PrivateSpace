@@ -1,5 +1,6 @@
-package com.lyh.ps.system.common.utils;
+package com.lyh.ps.system.utils;
 
+import com.lyh.ps.common.utils.SpringUtil;
 import com.lyh.ps.system.entity.SysUserEntity;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.Authenticator;
@@ -18,9 +19,9 @@ import java.util.Objects;
  */
 public class ShiroUtils {
 
-    private ShiroUtils(){};
+    private ShiroUtils(){}
 
-    private static RedisSessionDAO redisSessionDAO=SpringUtil.getBean(RedisSessionDAO.class);
+    private static RedisSessionDAO redisSessionDAO= SpringUtil.getBean(RedisSessionDAO.class);
 
     /**
      * 获取当前用户session
