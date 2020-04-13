@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:thSys="">
+<!-- 顶部栏 -->
+<head>
+	<title>菜单管理</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" th:href="@{/img/favicon.ico}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/plugins/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/plugins/vali/css/main.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/plugins/font-awesome-4.7.0/css/font-awesome.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/plugins/toast/jquery.toast.css}">
+	<link rel="stylesheet" th:href="@{/plugins/simplemde/simplemde.min.css}">
+	<link rel="stylesheet" th:href="@{//cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css}">
+	<link rel="stylesheet" th:href="@{/plugins/bootstrap-fileinput/css/fileinput.min.css}">
+	<link rel="stylesheet" th:href="@{/css/attachment.css}">
+</head>
+<body class="app sidebar-mini rtl">
+	<main class="app-content">
+		<header class="app-header"><a class="app-header__logo" href="/admin">Mayday</a>
+			<a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
+			<ul class="app-nav">
+				<a class="app-nav__item" href="/user/index" th:target="_blank"  aria-label="Show notifications"><i class="fa fa-paper-plane fa-lg"></i></a>
+				<li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="fa fa-user fa-lg"></i></a>
+					<ul class="dropdown-menu settings-menu dropdown-menu-right">
+						<li><a class="dropdown-item" href="/admin/profile"><i class="fa fa-user fa-lg"></i> 个人资料</a></li>
+						<li><a class="dropdown-item" href="/user/logout"><i class="fa fa-sign-out fa-lg"></i> 退出</a></li>
+					</ul>
+				</li>
+			</ul>
+		</header>
+		<div>
+			<!-- Navbar-->
+			<!-- 侧边栏-->
+			<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+			<aside class="app-sidebar">
+				<div class="app-sidebar__user"><img width="60px" class="app-sidebar__user-avatar" th:src="${user.getIcon()}" alt="User Image">
+					<div>
+						<p class="app-sidebar__user-name" th:text="${user.getRealname()}" ></p>
+					</div>
+				</div>
+				<ul class="app-menu">
+					<li><a class="app-menu__item" href="/admin"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">仪表盘</span></a></li>
+					<li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-book"></i><span class="app-menu__label">日记</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+						<ul class="treeview-menu">
+							<li><a class="treeview-item" href="/admin/article"><i class="icon fa fa-circle-o"></i>所有日记</a></li>
+							<li><a class="treeview-item" href="/admin/article/new"><i class="icon fa fa-circle-o"></i>写日记</a></li>
+						</ul>
+					</li>
+					<li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-file-text-o"></i><span class="app-menu__label">页面</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+						<ul class="treeview-menu">
+							<li><a class="treeview-item" href="/admin/page"><i class="icon fa fa-circle-o"></i>所有页面</a></li>
+							<li><a class="treeview-item" href="/admin/page/new"><i class="icon fa fa-circle-o"></i>新建页面</a></li>
+						</ul>
+					</li>
+					<li><a class="app-menu__item" href="/admin/attachment"><i class="app-menu__icon fa fa-file-image-o"></i><span class="app-menu__label">附件</span></a></li>
+					<!--         <li><a class="app-menu__item" href="charts.html"><i class="app-menu__icon fa fa-comments"></i><span class="app-menu__label">评论</span></a></li> -->
+					<li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-paint-brush"></i><span class="app-menu__label">外观</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+						<ul class="treeview-menu">
+							<li><a class="treeview-item" href="/admin/menus"><i class="icon fa fa-circle-o"></i>菜单</a></li>
+						</ul>
+					</li>
+					<li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-user-circle"></i><span class="app-menu__label">用户</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+						<ul class="treeview-menu">
+							<li><a class="treeview-item" href="/admin/profile"><i class="icon fa fa-circle-o"></i>个人资料</a></li>
+						</ul>
+					</li>
+				</ul>
+			</aside>
+		</div>
+	<div class="app-title">
+		<div>
+			<h1>菜单管理</h1>
+		</div>
+		<ul class="app-breadcrumb breadcrumb">
+			<li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+			<li class="breadcrumb-item"><a href="#">菜单管理</a></li>
+		</ul>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tile">
+				<div class="row">
+					<div class="col-lg-5">
+					<th:block th:if="${menu} == null">
+					<h4 class="tile-title">添加菜单</h4>
+					</th:block>
+					<th:block th:if="${menu} != null">
+					<h4 class="tile-title">修改菜单</h4>
+					</th:block>
+						<form action="/admin/menus/save" method="post">
+						<input type="hidden" name="id" id="menuId"
+								th:value="${menu != null ? menu.getId() :''}">
+							<div class="form-group">
+								<label class="col-form-label">*名称</label> <input
+									class="form-control" th:value="${menu != null ?menu.getMenuName() : ''}" name="menuName" type="text">
+							</div>
+							<div class="form-group">
+								<label class="col-form-label">*路径</label> <input
+									class="form-control" th:value="${menu != null ?menu.getMenuUrl() : ''}" name="menuUrl" type="text">
+							</div>
+							<div class="form-group">
+								<label class="col-form-label">*排序编号</label> <input
+									class="form-control" th:value="${menu != null ?menu.getMenuSort() : ''}" name="menuSort" type="text">
+							</div>
+							<div class="form-group">
+								<label class="col-form-label">图标</label> <input
+									class="form-control" th:value="${menu != null ?menu.getMenuIcon() : ''}" name="menuIcon" type="text">
+							</div>
+							<div class="form-group">
+								<label>打开方式</label><select
+									class="form-control" name="menuTarget">
+									<option th:selected="${menu != null ? menu.getMenuTarget()=='_blank' : ''}" value="_blank">新窗口</option>
+									<option th:selected="${menu != null ? menu.getMenuTarget()=='_self' : ''}" value="_self">当前窗口</option>
+								</select>
+							</div>
+							<div class="tile-footer">
+								<button class="btn btn-sm btn-outline-primary" type="submit">保存菜单</button>
+							<th:block th:if="${menu} != null">
+									<a class="btn btn-sm btn-outline-info" href="/admin/menus">返回添加</a>
+								</th:block>
+							</div>
+						</form>
+					</div>
+					<div class="col-lg-7">
+						<h4 class="tile-title">所有菜单</h4>
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>名称</th>
+										<th>路径</th>
+										<th>排序</th>
+										<th>图标</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="menu : ${menus}">
+										<td th:text="${menu.getMenuName()}"></td>
+										<td th:text="${menu.getMenuUrl()}"></td>
+										<td th:text="${menu.getMenuSort()}"></td>
+										<td th:text="${menu.getMenuIcon()}"></td>
+										<td><a class="btn btn-sm btn-outline-primary"
+											th:href="@{/admin/menus/edit(menuId=${menu.getId()})}">修改</a>
+											<button class="btn btn-sm btn-outline-danger"
+												th:onclick="'javascript:showModel('+${menu.getId()}+')'">删除</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	</main>
+	<!-- 删除确认弹出层 -->
+	<div class="modal fade" id="removeModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">提示信息</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">您确定要删除吗？(不可逆)</div>
+				<!-- 模态框底部 -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-secondary"
+							data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-outline-primary" onclick="remove()">确定</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" th:src="@{/plugins/vali/js/jquery-3.2.1.min.js}"></script>
+	<script type="text/javascript" th:src="@{/plugins/vali/js/popper.min.js}"></script>
+	<script type="text/javascript" th:src="@{/plugins/vali/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/plugins/vali/js/main.js}"></script>
+	<script type="text/javascript" th:src="@{/plugins/vali/js/plugins/pace.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/mayday.js}"></script>
+	<script type="text/javascript" th:src="@{/plugins/toast/jquery.toast.js}"></script>
+	<script th:src="@{/plugins/bootstrapvalidator/js/bootstrapValidator.min.js}"></script>
+	<script th:src="@{/plugins/bootstrapvalidator/js/language/zh_CN.js}"></script>
+	<script type="text/javascript">
+	$(function(){
+		$("form").bootstrapValidator({
+			message: 'This value is not valid',
+           　		feedbackIcons: {
+               　　　　　　　　valid: 'glyphicon glyphicon-ok',
+               　　　　　　　　invalid: 'glyphicon glyphicon-remove',
+               　　　　　　　　validating: 'glyphicon glyphicon-refresh'
+           　　　　　　　　   },
+            fields: {
+            	menuName: {
+                   message: '名称验证失败',
+                   validators: {
+                       notEmpty: {
+                           message: '名称不能为空'
+                       }
+                   }
+               },
+               menuUrl: {
+            	   message: '路径验证失败',
+                   validators: {
+                       notEmpty: {
+                           message: '路径不能为空'
+                       }
+                   }
+               },
+               menuSort: {
+            	   message: '排序编号验证失败',
+                   validators: {
+                       notEmpty: {
+                           message: '排序编号不能为空'
+                       }
+                   }
+               },
+           }
+		});
+	});
+	function showModel(menuId) {
+		$("#menuId").val(menuId);
+		$("#removeModal").modal();
+	}
+	function remove() {
+		window.location.href = "/admin/menus/remove?menuId="
+				+ $("#menuId").val();
+	}
+	</script>
+</body>
+</html>

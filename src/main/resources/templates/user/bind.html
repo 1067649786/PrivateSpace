@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>关系绑定</title>
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <meta name="keywords" content="Flat Dark Web Login Form Responsive Templates, Iphone Widget Template, Smartphone login forms,Login form, Widget Template, Responsive Templates, a Ipad 404 Templates, Flat Responsive Templates" />
+    <link th:href="@{/css/style.css}" rel='stylesheet' type='text/css' />
+    <!--webfonts-->
+    <link href='http://fonts.useso.com/css?family=PT+Sans:400,700,400italic,700italic|Oswald:400,300,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.useso.com/css?family=Exo+2' rel='stylesheet' type='text/css'>
+    <!--//webfonts-->
+    <script src="http://ajax.useso.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <style type="text/css">
+        body{
+            background: url(/images/login/bg1.jpg) no-repeat 0px 0px;
+            font-family: 'Open Sans', sans-serif;
+            background-size:cover;
+            -webkit-background-size:cover;
+            -moz-background-size:cover;
+            -o-background-size:cover;
+            min-height:750px;
+        }
+        h1 {
+            font-family: 'Exo 2', sans-serif;
+            text-align: center;
+            padding-top: 1em;
+            font-weight: 400;
+            color: #2B2B36;
+            font-size: 2em;
+        }
+        input[type="text"] {
+            width: 70%;
+            padding: 1em 2em 1em 3em;
+            color: #9199aa;
+            font-size: 18px;
+            outline: none;
+            background: url(/images/login/adm.png) no-repeat 10px 15px;
+            border: none;
+            font-weight: 100;
+            border-bottom: 1px solid#484856;
+            margin-top: 0em;
+        }
+        input[type="password"]{
+            width: 70%;
+            padding: 1em 2em 1em 3em;
+            color: #dd3e3e;
+            font-size: 18px;
+            outline: none;
+            background: url(/images/login/key.png) no-repeat 10px 23px;
+            border: none;
+            font-weight: 100;
+            border-bottom: 1px solid#484856;
+            margin-bottom: 0em;
+        }
+    </style>
+</head>
+<body>
+<h1>关系绑定</h1>
+<div class="login-form">
+    <div class="close"> </div>
+    <div class="head-info">
+        <label class="lbl-1"> </label>
+        <label class="lbl-2"> </label>
+        <label class="lbl-3"> </label>
+    </div>
+    <div class="clear"> </div>
+    <div class="avtar">
+        <img src="/images/login/avtar.png" />
+    </div>
+    <form action="/user/bind" method="post">
+        <span style="font-size: 12px;color: red" th:text="${error}"></span>
+        <span style="font-size: 20px;color: white">你的绑定号为</span><br>
+        <span style="font-size: 20px;color: #ff6bc9" th:text="${user.getBindCode()}"></span><br>
+        <span style="font-size: 20px;color: white">输入对方绑定号即可绑定关系</span><br>
+        <input type="text" class="text" name="bindCode" required="required" placeholder="请输入对方绑定号"
+               autocomplete="off"/><br>
+        <span style="font-size: 20px;color: white">请选择你们要绑定的关系</span><br>
+        <div th:each="relation:${relations}">
+            <label style="color: white"><input type="radio" name="relationId" th:value="${relation.getId()}" th:text="${relation.getRelation()}"/></label>
+        </div>
+        <div class="signin">
+            <input type="submit" value="绑定">
+        </div>
+    </form>
+</div>
+</body>
+</html>

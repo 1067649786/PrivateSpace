@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyh.zone.mapper.TbBindMapper">
+    <insert id="insertBindInfo" parameterType="com.lyh.zone.entity.TbBind">
+        insert into tb_bind(uid1,uid2,relationid)
+        values (#{uid1},#{uid2},{relationid});
+    </insert>
+
+    <select id="selectBindByUser" parameterType="com.lyh.zone.entity.TbUser" resultType="com.lyh.zone.entity.TbBind">
+        select * from tb_bind
+        where uid1=#{id} or uid2=#{id}
+    </select>
+</mapper>

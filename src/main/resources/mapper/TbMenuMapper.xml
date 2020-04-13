@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyh.zone.mapper.TbMenuMapper">
+    <select id="findAllMenus" resultType="com.lyh.zone.entity.TbMenu">
+        select * from tb_menu where uid=0 order by menuSort asc
+    </select>
+
+    <select id="findMenusByUid" resultType="com.lyh.zone.entity.TbMenu" parameterType="com.lyh.zone.entity.TbUser">
+        select * from tb_menu
+        where uid=#{user.id} or uid=0 or uid=(select uid2 from tb_bind where uid1=#{user.id}) or uid=(select uid1 from tb_bind where uid2=#{user.id})
+        order by menuSort asc
+    </select>
+
+    <insert id="insetMenu" parameterType="com.lyh.zone.dto.MenuDTO">
+        insert into tb_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid != null">
+                uid,
+            </if>
+            <if test="menuIcon != null">
+                menuIcon,
+            </if>
+            <if test="menuName != null">
+                menuName,
+            </if>
+            <if test="menuSort != null">
+                menuSort,
+            </if>
+            <if test="menuTarget != null">
+                menuTarget,
+            </if>
+            <if test="menuUrl != null">
+                menuUrl,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uid != null">
+                #{uid,jdbcType=INTEGER},
+            </if>
+            <if test="menuIcon != null">
+                #{menuIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="menuName != null">
+                #{menuName,jdbcType=VARCHAR},
+            </if>
+            <if test="menuSort != null">
+                #{menuSort,jdbcType=INTEGER},
+            </if>
+            <if test="menuTarget != null">
+                #{menuTarget,jdbcType=VARCHAR},
+            </if>
+            <if test="menuUrl != null">
+                #{menuUrl,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+</mapper>

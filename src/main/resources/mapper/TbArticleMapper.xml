@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyh.zone.mapper.TbArticleMapper">
+    <select id="findPageArticle" resultType="com.lyh.zone.entity.TbArticle" parameterType="com.lyh.zone.entity.TbArticle">
+        select * from tb_article a
+        where a.status=#{article.status} and a.post=#{article.post}
+        and a.uid=#{user.id} or a.uid=0 or a.uid=(select uid2 from tb_bind where uid1=#{user.id}) or a.uid=(select uid1 from tb_bind where uid2=#{user.id})
+        group by
+        a.id order by a.updatetime desc,a.newstime desc
+    </select>
+
+    <select id="findPageArticleSelf" resultType="com.lyh.zone.entity.TbArticle" parameterType="com.lyh.zone.entity.TbArticle">
+        select * from tb_article a
+        where a.status=#{article.status} and a.post=#{article.post}
+        and (a.uid=#{user.id} or a.uid=0)
+        group by
+        a.id order by a.updatetime desc,a.newstime desc
+    </select>
+
+    <select id="findDateAndCount" resultType="com.lyh.zone.dto.ArchiveBo">
+	select DATE_FORMAT(newstime, '%Y年%m月') as date, count(*) as count from tb_article
+	where post = 'post' and status = 0
+	and uid=#{user.id} or uid=0 or uid=(select uid2 from tb_bind where uid1=#{user.id}) or uid=(select uid1 from tb_bind where uid2=#{user.id})
+	group by date order by date desc
+	</select>
+
+    <select id="findAllArticle" resultType="com.lyh.zone.entity.TbArticle">
+        select * from tb_article
+        where status=0 and post='post'
+        and newstime &lt;=#{date2} and newstime &gt;=#{date1}
+        group by id
+        having uid=#{user.id} or uid=0 or uid=(select uid2 from tb_bind where uid1=#{user.id}) or uid=(select uid1 from tb_bind where uid2=#{user.id})
+        order by newstime desc;
+    </select>
+
+    <select id="findByArticleUrl" parameterType="String" resultType="com.lyh.zone.entity.TbArticle">
+        select * from tb_article
+        where url=#{articleUrl};
+    </select>
+    
+    <select id="findArticleByKeywords" resultType="com.lyh.zone.entity.TbArticle">
+        select * from tb_article
+        where status=0 and post='post'
+        and title like concat('%',#{keywords},'%')
+        group by id
+        having uid=#{user.id} or uid=0 or uid=(select uid2 from tb_bind where uid1=#{user.id}) or uid=(select uid1 from tb_bind where uid2=#{user.id})
+        order by newstime desc
+    </select>
+
+    <select id="countByStatusAll" resultType="Integer">
+        select count(*) from tb_article
+        where status=#{status} and post=#{post}
+        and uid=#{user.id} or uid=0 or uid=(select uid2 from tb_bind where uid1=#{user.id}) or uid=(select uid1 from tb_bind where uid2=#{user.id})
+    </select>
+
+    <select id="countByStatusSelf" resultType="Integer">
+        select count(*) from tb_article
+        where status=#{status} and post=#{post} and (uid=#{user.id} or uid=0)
+    </select>
+
+    <select id="findRepeatByUrl" parameterType="String" resultType="Integer">
+        select count(*) from tb_article where url=#{articleUrl}
+    </select>
+
+    <insert id="insertArticle" parameterType="com.lyh.zone.dto.ArticleDTO">
+        insert into tb_article(uid,content,contentMd,newstime,status,summary,thumbnail,title,type,post,comment,updatetime,url,views)
+        values (#{uid},#{content},#{contentMd},#{newstime},#{status},#{summary},#{thumbnail},#{title},#{type},#{post},#{comment},#{updatetime},#{url},#{views})
+    </insert>
+</mapper>

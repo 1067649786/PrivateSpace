@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:thSys="">
+<!-- 顶部栏 -->
+<head>
+	<title>相册管理</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" th:href="@{/img/favicon.ico}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/plugins/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/plugins/vali/css/main.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/plugins/font-awesome-4.7.0/css/font-awesome.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/plugins/toast/jquery.toast.css}">
+	<link rel="stylesheet" th:href="@{/plugins/simplemde/simplemde.min.css}">
+	<link rel="stylesheet" th:href="@{//cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css}">
+	<link rel="stylesheet" th:href="@{/plugins/bootstrap-fileinput/css/fileinput.min.css}">
+	<link rel="stylesheet" th:href="@{/css/attachment.css}">
+</head>
+<body class="app sidebar-mini rtl">
+	<main class="app-content">
+		<header class="app-header"><a class="app-header__logo" href="/admin">Mayday</a>
+			<a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
+			<ul class="app-nav">
+				<a class="app-nav__item" href="/user/index" th:target="_blank"  aria-label="Show notifications"><i class="fa fa-paper-plane fa-lg"></i></a>
+				<li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="fa fa-user fa-lg"></i></a>
+					<ul class="dropdown-menu settings-menu dropdown-menu-right">
+						<li><a class="dropdown-item" href="/admin/profile"><i class="fa fa-user fa-lg"></i> 个人资料</a></li>
+						<li><a class="dropdown-item" href="/user/logout"><i class="fa fa-sign-out fa-lg"></i> 退出</a></li>
+					</ul>
+				</li>
+			</ul>
+		</header>
+		<div>
+			<!-- Navbar-->
+			<!-- 侧边栏-->
+			<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+			<aside class="app-sidebar">
+				<div class="app-sidebar__user"><img width="60px" class="app-sidebar__user-avatar" th:src="${user.getIcon()}" alt="User Image">
+					<div>
+						<p class="app-sidebar__user-name" th:text="${user.getRealname()}" ></p>
+					</div>
+				</div>
+				<ul class="app-menu">
+					<li><a class="app-menu__item" href="/admin"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">仪表盘</span></a></li>
+					<li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-book"></i><span class="app-menu__label">日记</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+						<ul class="treeview-menu">
+							<li><a class="treeview-item" href="/admin/article"><i class="icon fa fa-circle-o"></i>所有日记</a></li>
+							<li><a class="treeview-item" href="/admin/article/new"><i class="icon fa fa-circle-o"></i>写日记</a></li>
+						</ul>
+					</li>
+					<li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-file-text-o"></i><span class="app-menu__label">页面</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+						<ul class="treeview-menu">
+							<li><a class="treeview-item" href="/admin/page"><i class="icon fa fa-circle-o"></i>所有页面</a></li>
+							<li><a class="treeview-item" href="/admin/page/new"><i class="icon fa fa-circle-o"></i>新建页面</a></li>
+						</ul>
+					</li>
+					<li><a class="app-menu__item" href="/admin/attachment"><i class="app-menu__icon fa fa-file-image-o"></i><span class="app-menu__label">附件</span></a></li>
+					<!--         <li><a class="app-menu__item" href="charts.html"><i class="app-menu__icon fa fa-comments"></i><span class="app-menu__label">评论</span></a></li> -->
+					<li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-paint-brush"></i><span class="app-menu__label">外观</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+						<ul class="treeview-menu">
+							<li><a class="treeview-item" href="/admin/menus"><i class="icon fa fa-circle-o"></i>菜单</a></li>
+						</ul>
+					</li>
+					<li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-user-circle"></i><span class="app-menu__label">用户</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+						<ul class="treeview-menu">
+							<li><a class="treeview-item" href="/admin/profile"><i class="icon fa fa-circle-o"></i>个人资料</a></li>
+						</ul>
+					</li>
+				</ul>
+			</aside>
+		</div>
+	<div class="app-title">
+		<div>
+			<h1>
+				<i class="fa fa-dashboard"></i> 相册管理<a href="#" id="upload"
+					class="btn">上传图片</a>
+			</h1>
+		</div>
+		<ul class="app-breadcrumb breadcrumb">
+			<li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+			<li class="breadcrumb-item"><a href="/admin/attachment">相册管理</a></li>
+			<li class="breadcrumb-item">所有图片</li>
+		</ul>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tile" id="uploadInput" style="display: none;">
+				<div class="file-loading">
+					<input id="input-fas" autocomplete="off" name="file" type="file"
+						class="file-loading" multiple>
+				</div>
+			</div>
+			<div class="row">
+				<th:block th:each="attachment : ${attachments}">
+					<div class="col-lg-2 col-md-3 col-sm-6 col-6 div-thumbnail"
+						th:onclick="'javascript:viewDetails('+${attachment.getId()}+')'">
+						<a href="#"><img
+							class="img-thumbnail img-fluid img-responsive"
+							th:src="${attachment.getPictureSmallPath()}"></a>
+					</div>
+				</th:block>
+			</div>
+			<div class="clearfix">
+				<ul class="pagination no-margin float-right">
+					<li th:if="${pageInfo.pages}!=0" class="page-item"><a class="page-link" href="#" th:text="'共'+ ${pageInfo.pages}+'页'"></a></li>
+					<li th:if="${pageInfo.hasPreviousPage}" class="page-item"><a
+							th:href="@{'?page='+${pageInfo.prePage}}" class="page-link"> <i
+							class="fa fa-angle-left"></i>&nbsp;上一页
+					</a></li>
+					<th:block th:each="nav : ${pageInfo.navigatepageNums}">
+						<li
+								th:class="${nav==pageInfo.pageNum} ? 'page-item active':'page-item'"><a
+								class="page-link" th:href="@{'?page='+${nav}}" th:text="${nav}"></a>
+						</li>
+					</th:block>
+					<th:block th:if="${pageInfo.hasNextPage}">
+						<li class="page-item"><a
+								th:href="@{'?page='+${pageInfo.nextPage}}" class="page-link">
+							下一页&nbsp;<i class="fa fa-angle-right"></i>
+						</a></li>
+					</th:block>
+				</ul>
+			</div>
+		</div>
+	</div>
+	</main>
+	<script type="text/javascript" th:src="@{/plugins/vali/js/jquery-3.2.1.min.js}"></script>
+	<script type="text/javascript" th:src="@{/plugins/vali/js/popper.min.js}"></script>
+	<script type="text/javascript" th:src="@{/plugins/vali/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/plugins/vali/js/main.js}"></script>
+	<script type="text/javascript" th:src="@{/plugins/vali/js/plugins/pace.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/mayday.js}"></script>
+	<script type="text/javascript" th:src="@{/plugins/toast/jquery.toast.js}"></script>
+	<script type="text/javascript" th:src="@{/plugins/bootstrap-fileinput/js/fileinput.min.js}"></script>
+	<script type="text/javascript" th:src="@{/plugins/bootstrap-fileinput/js/locales/zh.js}"></script>
+	<script type="text/javascript" th:src="@{/plugins/bootstrap-fileinput/themes/fa/theme.js}"></script>
+	<script type="text/javascript" src="/static/plugins/layer/layer.js"></script>
+	<script type="text/javascript">
+		function viewDetails(id) {
+			layer.open({
+				type : 2,
+				title : '附件详情',
+				anim : 2,
+				area : [ '90%', '90%' ],
+				maxmin : true,
+				content : "attachment/viewDetails/" + id
+			});
+		}
+
+		$("#input-fas").fileinput(
+				{
+					theme : "fa",
+					uploadUrl : "/admin/attachment/upload",
+					language : 'zh',
+					uploadAsync : true,
+					allowedFileExtensions : [ 'jpg', 'gif', 'png', 'jpeg',
+							'svg', 'psd' ],
+					enctype : 'multipart/form-data',
+					showClose : false
+				}).on("filebatchuploadcomplete", function(event, files, extra) {
+				 $.toast({
+					text : "上传成功！",
+					heading : '提示',
+					icon : 'success',
+					showHideTransition : 'fade',
+					allowToastClose : true,
+					hideAfter : 1000,
+					stack : 1,
+					position : 'top-center',
+					textAlign : 'left',
+					loader : true,
+					loaderBg : '#ffffff',
+					afterHidden : function() {
+						window.location.reload();
+					}
+				}); 
+		});
+		$("#upload").click(function() {
+			$("#uploadInput").slideToggle(400);
+		});
+	</script>
+</body>
+</html>
