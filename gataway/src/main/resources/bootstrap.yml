@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: gataway
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      config:
+        file-extension: yml
+        shared-dataids: gataway.yml
+        refreshable-dataids: gataway.yml
+  main:
+    allow-bean-definition-overriding: true

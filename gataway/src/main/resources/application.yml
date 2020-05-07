@@ -1,0 +1,33 @@
+#server:
+#  port: 8081
+#
+#auth:
+#  server-spring-name: service
+#  validate-uri: /user/validate
+#  ignore-uri: >
+#    /user/login,
+#    /user/captcha
+#
+#spring:
+#  cloud:
+#    gateway:
+#      discovery:
+#        locator:
+#          enabled: true
+#      routes:
+#        - id: user
+#          uri: http://localhost:8080
+#          predicates:
+#            - Path=/user/**
+#        - id: admin
+#          uri: http://localhost:8080
+#          predicates:
+#            - Path=/admin/**
+#  main:
+#    allow-bean-definition-overriding: true
+#  datasource:
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://127.0.0.1:3306/lyh?serverTimezone=GMT%2B8
+#    username: root
+#    password:
